@@ -40,10 +40,10 @@ There will be a:
 
 - User table columns:
 	- int id
-	- varchar username
+	- varchar username (Assuming 25 character limit)
 	- int count_comments
 - Comments table columns:
 	- int id,
 	- int user_id (foreign key)
 	- timestamp timestamp
-	- (TODO varchar or text) text
+	- (TODO varchar or text) text (Assuming 1000 character limit)
