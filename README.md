@@ -20,21 +20,21 @@ Small chat page where customers can ask questions and get answers
 
 ## Architecture
 
-#### Using Laravel 7.6.2
+#### Using Laravel 5.6
+#### Using Homestead 7.6.2
 
 There will be a:
 - Chat Controller
 	- Method to load the view with initial comments data from the model
 	- Method where new comments are posted, along with usernames, and sent to the model
 		- Returns formatted comment just posted using view method for comment html
+	- Method to create new user using User Model
+	- Method to create new comment linked to newly-created user or existing user using Comment model, while incrementing the count in the User model
 - Chat View
 	- Method to load the HTML used to structure the comments and the javascript to handle page actions, ie validation
 	- Loads form elements and javascript used to post new comments via ajax to controller then update the page
-- Chat Model
-	- Has three methods:
-		- One for insertion of new comments
-		- One for insertion of new users
-		- One for querying comments in descending order by date
+- Comment Model
+- User Model
 
 ### Database Schema
 
