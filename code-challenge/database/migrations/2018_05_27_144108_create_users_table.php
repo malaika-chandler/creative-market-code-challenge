@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('username', 25);
+            $table->string('username', 25)->unique();
             $table->unsignedInteger('count_comments');
             $table->timestamps();
         });

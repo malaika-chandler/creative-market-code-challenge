@@ -7,16 +7,16 @@
         <!-- Styles -->
         <style>
             html, body {
-                font-family: helvetica;
+                font-family: "Helvetica";
             }
         </style>
 
     </head>
     <body>
         <div class="content">
-            @foreach ($comments as $comment)
-                <p>Date: {{$comment->timestamp}} <br> Text: {{ $comment->text }}</p>
-            @endforeach
+            <ul class="comments">
+                @each('chat.comment', $comments, 'comment')
+            </ul>
         </div>
     </body>
 </html>

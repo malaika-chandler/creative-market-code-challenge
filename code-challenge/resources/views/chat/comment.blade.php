@@ -1,0 +1,3 @@
+<li>
+	{{$comment->text}}
+</li>
