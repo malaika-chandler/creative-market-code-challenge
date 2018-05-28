@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'ChatController@index');
+
+Route::post('/postComment','ChatController@postComment');
