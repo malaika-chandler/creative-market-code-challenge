@@ -27,7 +27,10 @@ class ChatController extends Controller
     }
 
     /**
-     * Posts comment to database and updates the view.
+     * Posts comment to database and creates an element to send
+     * to the view.
+     *
+     * @param Request $request
      *
      * @return Response
      */
@@ -55,7 +58,7 @@ class ChatController extends Controller
 
         } catch(\Illuminate\Database\QueryException $ex) {
             $response['errors'] = ['username' => $ex->getMessage()];
-            return json_encode($response);
+            return response()->json($response);
         }
 
         try {
@@ -69,12 +72,13 @@ class ChatController extends Controller
 
         } catch(\Illuminate\Database\QueryException $ex) {
             $response['errors'] = ['comment' => $ex->getMessage()];
-            return json_encode($response);
+            return response()->json($response);
         }
 
         $view = View::make('chat.comment', ['comment' => $comment]);
         $response['data'] = $view->render();
 
-        return json_encode($response);
+        // return json_encode($response);
+        return response()->json($response);
     }
 }
