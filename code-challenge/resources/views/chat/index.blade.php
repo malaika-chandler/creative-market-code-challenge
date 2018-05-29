@@ -9,6 +9,25 @@
             html, body {
                 font-family: "Helvetica";
             }
+            .commentsForm {
+                margin-bottom:1em;
+            }
+            .commentsForm label {
+                font-weight: bold;
+                width: 10em;
+                display: inline-block;
+            }
+            ul.comments {
+                padding-left: 0;
+            }
+            ul.comments li {
+                list-style: none;
+                margin-bottom: 1em;
+            }
+            .byline {
+                font-size: 0.8em;
+                font-weight: bold;
+            }
         </style>
 
         <!-- Form Behavior -->
@@ -22,9 +41,9 @@
                     }
                     formElement.addEventListener("submit", Comments.handleFormSubmit);
                 },
-				displayError: function(errorMessage) { // FIXME: in a real project, errors would be displayed inline or in some formatted way. Using `alert` for now.
-					alert(errorMessage);
-				},
+                displayError: function(errorMessage) { // FIXME: in a real project, errors would be displayed inline or in some formatted way. Using `alert` for now.
+                    alert(errorMessage);
+                },
                 handleFormSubmit: function(event) {
                     event.preventDefault();
                     var formElement = event.target;
@@ -55,26 +74,26 @@
                 postNew: function(username, comment, token) {
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", "/postComment");
-					xhr.setRequestHeader("Accept", "application/json");
+                    xhr.setRequestHeader("Accept", "application/json");
                     var formData = new FormData();
                     formData.append("username", username);
                     formData.append("comment", comment);
                     formData.append("_token", token);
                     xhr.addEventListener("readystatechange", function(event) {
                         if (xhr.readyState === 4) {
-							var response;
+                            var response;
 
-							try {
-								response = JSON.parse(xhr.responseText);
-							} catch (ignore) {}
+                            try {
+                                response = JSON.parse(xhr.responseText);
+                            } catch (ignore) {}
 
                             if (response) {
-								if (!response.errors) {
-									Comments.prependMarkupToList(response.data);
-									Comments.clearForm();
-								} else {
-									Comments.displayError(Object.values(response.errors).join("\n"));
-								}
+                                if (!response.errors) {
+                                    Comments.prependMarkupToList(response.data);
+                                    Comments.clearForm();
+                                } else {
+                                    Comments.displayError(Object.values(response.errors).join("\n"));
+                                }
                             } else {
                                 console.error("Unexpected response when posting new comment.", xhr.responseText);
                                 Comments.displayError("There was a problem posting your comment. Please try again or contact support.");
@@ -111,11 +130,19 @@
     </head>
     <body>
         <div class="content">
-            <form class="commentForm" id="commentsForm">
+            <form class="commentsForm" id="commentsForm">
                 @csrf
-                <input type="text" name="username">
-                <textarea name="comment" class="commentTextarea"></textarea>
-                <button>Submit</button>
+                <div class="row">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username">
+                </div>
+                <div class="row">
+                    <label for="comment">Comment/Question:</label>
+                    <textarea name="comment" class="commentTextarea"></textarea>
+                </div>
+                <div class="row">
+                    <button>Submit</button>
+                </div>
             </form>
             <ul class="comments">
                 @each('chat.comment', $comments, 'comment')

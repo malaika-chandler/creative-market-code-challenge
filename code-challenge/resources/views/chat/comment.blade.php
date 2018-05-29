@@ -1,5 +1,5 @@
 <li>
-    <div>
+    <div class="byline">
         {{$comment->created_at}} by {{$comment->username}}
     </div>
     <div>
