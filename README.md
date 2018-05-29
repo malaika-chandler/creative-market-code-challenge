@@ -11,7 +11,7 @@ Small chat page where customers can ask questions and get answers
 	- User enters username in first text area
 	- User enters question in second
 	- Validation ensuring no empty text fields
-	- Assuming 1000 character limit for now
+	- Assuming 2^16 - 1 byte limit for now
 - User sees their question at the top of the list of comments
 	- Nice To Have:
 		- They see their post without reloading
@@ -46,4 +46,4 @@ There will be a:
 	- int `id`,
 	- int `user_id` (foreign key)
 	- timestamp `timestamp`
-	- (TODO varchar or text) `text` (Assuming 1000 character limit)
+	- text `text` (Assuming 2^16 - 1 byte limit)
