@@ -22,6 +22,9 @@
                     }
                     formElement.addEventListener("submit", Comments.handleFormSubmit);
                 },
+				displayError: function(errorMessage) { // FIXME: in a real project, errors would be displayed inline or in some formatted way. Using `alert` for now.
+					alert(errorMessage);
+				},
                 handleFormSubmit: function(event) {
                     event.preventDefault();
                     var formElement = event.target;
@@ -34,12 +37,12 @@
                     }
                     var username = usernameInput.value;
                     if (!username) {
-                        alert("Please enter your username.");
+                        Comments.displayError("Please enter your username.");
                         return;
                     }
                     var comment = commentInput.value;
                     if (!comment) {
-                        alert("Please enter your comment.");
+                        Comments.displayError("Please enter your comment.");
                         return;
                     }
                     var token = tokenInput.value;
@@ -52,17 +55,29 @@
                 postNew: function(username, comment, token) {
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", "/postComment");
+					xhr.setRequestHeader("Accept", "application/json");
                     var formData = new FormData();
                     formData.append("username", username);
                     formData.append("comment", comment);
                     formData.append("_token", token);
                     xhr.addEventListener("readystatechange", function(event) {
                         if (xhr.readyState === 4) {
-                            if (xhr.status === 200 && xhr.responseText) {
-                                Comments.prependMarkupToList(xhr.responseText);
-                                Comments.clearForm();
+							var response;
+
+							try {
+								response = JSON.parse(xhr.responseText);
+							} catch (ignore) {}
+
+                            if (response) {
+								if (!response.errors) {
+									Comments.prependMarkupToList(response.data);
+									Comments.clearForm();
+								} else {
+									Comments.displayError(Object.values(response.errors).join("\n"));
+								}
                             } else {
-                                console.error("Error posting new comment", xhr.responseText);
+                                console.error("Unexpected response when posting new comment.", xhr.responseText);
+                                Comments.displayError("There was a problem posting your comment. Please try again or contact support.");
                             }
                         }
                     });
