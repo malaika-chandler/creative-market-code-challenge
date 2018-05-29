@@ -78,7 +78,6 @@ class ChatController extends Controller
         $view = View::make('chat.comment', ['comment' => $comment]);
         $response['data'] = $view->render();
 
-        // return json_encode($response);
         return response()->json($response);
     }
 }
